@@ -25,7 +25,7 @@ public class PostDao {
 	}
 	
 	public PostVo read(int postNo) {
-		System.out.println("PostDao.view");
+		System.out.println("PostDao.read");
 		return sqlSession.selectOne("post.selectOne", postNo);
 	}
 }

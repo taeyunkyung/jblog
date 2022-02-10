@@ -25,7 +25,7 @@ public class PostService {
 	}
 	
 	public PostVo read(int postNo) {
-		System.out.println("PostService.view");
+		System.out.println("PostService.read");
 		return postDao.read(postNo);
 	}
 }

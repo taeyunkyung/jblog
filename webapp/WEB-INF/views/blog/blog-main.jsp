@@ -72,11 +72,11 @@
 							<div id="postDate" class="text-left"><strong></strong></div>
 							<div id="postNick"></div>
 					</div>
-			     -->
+			    
 					<div id="post" >
 					</div>
 				</c:if>
-				
+				 -->
 				<div id="list">
 					<div id="listTitle" class="text-left"><strong>카테고리의 글</strong></div>
 					<table>
