@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cate">
+	<select id="selectList" parameterType="String" resultType="CateVo">
+		<![CDATA[
+			select  cateNo,
+        			id,
+        			cateName,
+        			description,
+        			regDate
+			from category
+			where id = #{id}
+			order by cateNo asc
+		]]>
+	</select>
+
+	<select id="selectList2" parameterType="String" resultType="CateVo">
+		<![CDATA[
+			select  c.cateNo,
+        			id,
+       	 			cateName,
+        			p.count,
+        			description,
+  					regDate
+			from category c,(select count(*) count,
+                        			cateNo
+                 			from post
+                 			group by cateNo) p
+			where c.cateNo = p.cateNo
+			and id = #{id}
+			order by cateNo asc
+		]]>
+	</select>
+	
+	<insert id="insertSelectKey" parameterType="CateVo">
+		<selectKey keyProperty="cateNo" resultType="int" order="BEFORE">
+			select seq_category_no.nextval from dual
+		</selectKey>
+		<![CDATA[
+			insert into category
+			values(#{cateNo}, #{id}, #{cateName}, #{description}, sysdate)
+		]]>
+	</insert>
+	
+	<select id="selectByNo" parameterType="int" resultType="CateVo">
+		<![CDATA[
+			select  cateNo,
+        			id,
+        			cateName,
+        			description
+			from category
+			where cateNo = #{cateNo}
+		]]>
+	</select>
+	
+	<delete id="delete" parameterType="CateVo">
+		<![CDATA[
+			delete from category
+			where cateNo = #{cateNo}
+			and id = #{id}
+		]]>
+	</delete>
+	
+	<select id="optionList" parameterType="String" resultType="CateVo">
+		<![CDATA[
+			select  cateNo,
+					cateName
+			from category
+			where id = #{id}
+			order by cateNo desc
+		]]>
+	</select>
+</mapper>
