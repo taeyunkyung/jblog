@@ -21,36 +21,48 @@ public class CateController {
 
 	@Autowired
 	private CateService cateService;
-	
+
 	@ResponseBody
 	@RequestMapping("/list")
 	public List<CateVo> list(@RequestParam("id") String id) {
 		System.out.println("cate.list");
 		return cateService.getList(id);
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("/add")
 	public CateVo add(@ModelAttribute CateVo cateVo, HttpSession session) {
 		System.out.println("cate.add");
-		
-		UserVo authUser = (UserVo)session.getAttribute("authUser");
+
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
 		cateVo.setId(authUser.getId());
-		System.out.println(cateVo);
-		
+
 		return cateService.addReturnVo(cateVo);
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("/delete")
-	public void delete() {
+	public String delete(@RequestParam("cateNo") int cateNo, HttpSession session) {
+		System.out.println("cate.delete");
+
+		CateVo cateVo = new CateVo();
+		cateVo.setCateNo(cateNo);
 		
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		cateVo.setId(authUser.getId());
+		int result = cateService.delete(cateVo);
+
+		if (result > 0) {
+			return "success";
+		} else {
+			return "fail";
+		}
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("/optionList")
 	public List<CateVo> option(@RequestParam("id") String id) {
-		System.out.println("post.option");		
+		System.out.println("post.option");
 		return cateService.optionList(id);
 	}
 }

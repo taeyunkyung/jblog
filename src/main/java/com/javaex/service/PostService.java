@@ -24,6 +24,10 @@ public class PostService {
 		return postDao.list(cateNo);
 	}
 	
+	public PostVo max(String id) {
+		return postDao.max(id);
+	}
+	
 	public PostVo read(int postNo) {
 		System.out.println("PostService.read");
 		return postDao.read(postNo);

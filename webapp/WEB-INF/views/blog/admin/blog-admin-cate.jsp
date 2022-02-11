@@ -25,8 +25,8 @@
 		
 		<div id="content">
 			<ul id="admin-menu" class="clearfix">
-				<li class="tabbtn selected"><a href="${pageContext.request.contextPath}/${authUser.id}/admin/basic">기본설정</a></li>
-				<li class="tabbtn"><a href="${pageContext.request.contextPath}/${authUser.id}/admin/category">카테고리</a></li>
+				<li class="tabbtn"><a href="${pageContext.request.contextPath}/${authUser.id}/admin/basic">기본설정</a></li>
+				<li class="tabbtn selected"><a href="${pageContext.request.contextPath}/${authUser.id}/admin/category">카테고리</a></li>
 				<li class="tabbtn"><a href="${pageContext.request.contextPath}/${authUser.id}/admin/writeForm">글작성</a></li>
 			</ul>
 			<!-- //admin-menu -->
@@ -112,7 +112,7 @@
 
 			dataType : "json",
 			success : function(cateVo){
-				render(cateVo);
+				render(cateVo, 'up');
 				
 				$("[name='name']").val("");
 				$("[name='desc']").val("");
@@ -122,8 +122,6 @@
 			}	
 		}); 
 	});
-	
-	// 삭제: 포스트 없을때만 가능
 	
 	function fetchList(id) {
 		$.ajax({			
@@ -137,7 +135,7 @@
 				console.log(cateList);	
 				
 				for(var i = 0; i < cateList.length; i++) {
-					render(cateList[i]);
+					render(cateList[i], 'down');
 				}				
 			},
 			error : function(XHR, status, error) {
@@ -146,19 +144,50 @@
 		}); 
 	};
 	
-	function render(cateVo) {
+	function render(cateVo, updown) {
 		var str = '';
 		str += '<tr id="t'+ cateVo.cateNo +'">';
 		str += '	<td>'+ cateVo.cateNo +'</td>';
 		str += '	<td>'+ cateVo.cateName +'</td>';
-		str += '	<td></td>';
+		str += '	<td>'+ cateVo.count +'</td>';
 		str += '	<td>'+ cateVo.description +'</td>';
 		str += '	<td class="text-center">';
-		str += '		<input type="img" class="btnCateDel" data-no="'+ cateVo.cateNo +'" src="${pageContext.request.contextPath}/assets/images/delete.jpg"></td>';
+		str += '		<img class="btnCateDel" onclick="delCate('+ cateVo.cateNo +', '+ cateVo.count +')" src="${pageContext.request.contextPath}/assets/images/delete.jpg"></td>';
 		str += '</tr>';
 		
-		$("#cateList").append(str);
-	}
+		if(updown == 'up') {
+			$("#cateList").prepend(str);
+		} else {
+			$("#cateList").append(str);
+		}
+	};
+	
+	function delCate(cateNo, count) {
+		console.log(count);
+		var cateNo = cateNo;
+		
+		if(count > 0) {
+			alert("삭제할 수 없습니다.");
+			return false;
+		}
+		
+		$.ajax({			
+			url : "${pageContext.request.contextPath}/cate/delete",		
+			type : "post",
+			// contentType : "application/json",
+			data : {cateNo: cateNo},
+
+			dataType : "json",
+			success : function(result){
+				if(result == 'success') {
+					$("#t"+cateNo).remove();
+				}
+			},
+			error : function(XHR, status, error) {
+				console.error(status + " : " + error);
+			}	
+		});
+	};
 </script>
 
 </html>

@@ -4,32 +4,23 @@
 <mapper namespace="cate">
 	<select id="selectList" parameterType="String" resultType="CateVo">
 		<![CDATA[
-			select  cateNo,
-        			id,
-        			cateName,
-        			description,
-        			regDate
-			from category
-			where id = #{id}
-			order by cateNo asc
-		]]>
-	</select>
-
-	<select id="selectList2" parameterType="String" resultType="CateVo">
-		<![CDATA[
 			select  c.cateNo,
-        			id,
-       	 			cateName,
-        			p.count,
-        			description,
-  					regDate
-			from category c,(select count(*) count,
+					c.id,
+        			c.cateName,
+        			nvl(p.count,0) count,
+        			c.description
+			from (select cateNo,
+						 id,
+             			 cateName,
+             			 description
+      			  from category
+      			  where id = #{id}) c 
+			left outer join (select count(*) count,
                         			cateNo
                  			from post
                  			group by cateNo) p
-			where c.cateNo = p.cateNo
-			and id = #{id}
-			order by cateNo asc
+			on c.cateNo = p.cateNo
+			order by cateNo desc
 		]]>
 	</select>
 	
@@ -61,6 +52,14 @@
 			and id = #{id}
 		]]>
 	</delete>
+	
+	<select id="max" parameterType="String" resultType="CateVo">
+		<![CDATA[
+			select nvl(max(cateNo),0) cateNo
+			from category
+			where id = #{id}
+		]]>
+	</select>
 	
 	<select id="optionList" parameterType="String" resultType="CateVo">
 		<![CDATA[

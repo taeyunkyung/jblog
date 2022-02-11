@@ -33,6 +33,10 @@ public class CateService {
 		return cateDao.delete(cateVo);
 	}
 	
+	public CateVo max(String id) {
+		return cateDao.max(id);
+	}
+	
 	public List<CateVo> optionList(String id) {
 		System.out.println("CateService.optionList");
 		return cateDao.optionList(id);

@@ -24,6 +24,10 @@ public class PostDao {
 		return sqlSession.selectList("post.selectList", cateNo);
 	}
 	
+	public PostVo max(String id) {
+		return sqlSession.selectOne("post.max", id);
+	}
+	
 	public PostVo read(int postNo) {
 		System.out.println("PostDao.read");
 		return sqlSession.selectOne("post.selectOne", postNo);

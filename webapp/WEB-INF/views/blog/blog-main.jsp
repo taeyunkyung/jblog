@@ -41,6 +41,7 @@
 						<c:forEach items="${map.cateList}" var="cateVo">
 							<li><a href="${pageContext.request.contextPath}/${map.blogVo.id}?cateNo=${cateVo.cateNo}">${cateVo.cateName}</a></li>
 						</c:forEach>	
+						
 						<li><a href="$}">미분류</a></li>				
 					</ul>
 				</div>
@@ -50,11 +51,9 @@
 			<div id="post_area">
 				
 				<div id="postBox" class="clearfix">
-					
-						<div id="postTitle" class="text-left"><strong>${readVo.postTitle}</strong></div>
-						<div id="postDate" class="text-left"><strong>${readVo.regDate}</strong></div>
-						<div id="postNick">${map.blogVo.userName}(${map.blogVo.id})님</div>
-					
+					<div id="postTitle" class="text-left"><strong>${readVo.postTitle}</strong></div>
+					<div id="postDate" class="text-left"><strong>${readVo.regDate}</strong></div>
+					<div id="postNick">${map.blogVo.userName}(${map.blogVo.id})님</div>
 				</div>
 				<!-- //postBox -->
 			
@@ -65,18 +64,17 @@
 				<!-- //post -->
 				
 				<!-- 글이 없는 경우 -->
-				<!-- 
-				<c:if test="">
+				<c:if test="${readVo == null}">
 					<div id="postBox" class="clearfix">
-							<div id="postTitle" class="text-left"><strong>등록된 글이 없습니다.</strong></div>
-							<div id="postDate" class="text-left"><strong></strong></div>
-							<div id="postNick"></div>
+						<div id="postTitle" class="text-left"><strong>등록된 글이 없습니다.</strong></div>
+						<div id="postDate" class="text-left"><strong></strong></div>
+						<div id="postNick"></div>
 					</div>
 			    
 					<div id="post" >
 					</div>
 				</c:if>
-				 -->
+				
 				<div id="list">
 					<div id="listTitle" class="text-left"><strong>카테고리의 글</strong></div>
 					<table>

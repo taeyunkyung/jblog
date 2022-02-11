@@ -34,6 +34,10 @@ public class CateDao {
 		return sqlSession.delete("cate.delete", cateVo);
 	}
 	
+	public CateVo max(String id) {
+		return sqlSession.selectOne("cate.max", id);
+	}
+	
 	public List<CateVo> optionList(String id) {
 		System.out.println("CateDao.optionList");
 		return sqlSession.selectList("cate.optionList", id);
