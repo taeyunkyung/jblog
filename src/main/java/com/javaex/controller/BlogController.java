@@ -31,7 +31,8 @@ public class BlogController {
 	@RequestMapping(value = "/{id}", method = { RequestMethod.GET, RequestMethod.POST })
 	public String main(@PathVariable("id") String id,
 			@RequestParam(value = "cateNo", required = false, defaultValue = "-1") int cateNo,
-			@RequestParam(value = "postNo", required = false, defaultValue = "-1") int postNo, Model model) {
+			@RequestParam(value = "postNo", required = false, defaultValue = "-1") int postNo, 
+			@RequestParam(value = "crtPage", required = false, defaultValue = "1") int crtPage, Model model) {
 		System.out.println("jblog/id.main");
 
 		if (cateNo < 0) {
@@ -41,7 +42,7 @@ public class BlogController {
 			postNo = postService.max(id).getPostNo();
 		}
 
-		Map<String, Object> map = blogService.map(id, cateNo);
+		Map<String, Object> map = blogService.map(id, cateNo, crtPage);
 		PostVo readVo = postService.read(postNo);
 
 		model.addAttribute("map", map);

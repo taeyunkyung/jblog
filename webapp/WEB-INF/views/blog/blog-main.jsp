@@ -115,7 +115,7 @@
 							<col style="">
 							<col style="width: 20%;">
 						</colgroup>
-						 
+						
 						<c:forEach items="${map.postList}" var="postVo">
 							<tr>
 								<td class="text-left"><a href="${pageContext.request.contextPath}/${map.blogVo.id}?cateNo=${param.cateNo}&postNo=${postVo.postNo}">${postVo.postTitle}</a></td>
@@ -123,6 +123,30 @@
 							</tr>
 						</c:forEach>
 					</table>
+					
+					<div id="paging">
+						<ul>
+							<c:if test="${map.prev == true}">
+								<li><a href="${pageContext.request.contextPath}/${map.blogVo.id}?crtPage=${map.spgBtnNo - 1}">◀</a></li>
+							</c:if>
+							
+							<c:forEach begin="${map.spgBtnNo}" end="${map.epgBtnNo}" step="1" var="page">
+								<c:choose>
+									<c:when test="${param.crtPage == page}">
+										<li class="active"><a href="${pageContext.request.contextPath}/${map.blogVo.id}?crtPage=${page}">${page}</a></li>								
+									</c:when>
+									<c:otherwise>
+										<li><a href="${pageContext.request.contextPath}/${map.blogVo.id}?crtPage=${page}">${page}</a></li>
+									</c:otherwise>	
+								</c:choose>							
+							</c:forEach>
+							
+							<c:if test="${map.next == true}">
+								<li><a href="${pageContext.request.contextPath}/${map.blogVo.id}?crtPage=${map.epgBtnNo + 1}">▶</a></li>
+							</c:if>							
+						</ul>
+					</div>
+					
 				</div>
 				<!-- //list -->
 			</div>

@@ -42,7 +42,7 @@ public class BlogService {
 		return blogDao.selectOne(id);
 	}
 
-	public Map<String, Object> map(String id, int cateNo) {
+	public Map<String, Object> map(String id, int cateNo, int crtPage) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		BlogVo blogVo = blogDao.selectOne(id); 
 		List<CateVo> cateList = cateDao.optionList(id); 
@@ -50,9 +50,37 @@ public class BlogService {
 		map.put("blogVo", blogVo);
 		map.put("cateList", cateList);
 
-		List<PostVo> postList = postDao.list(cateNo);
-		map.put("postList", postList);
+		// 포스트 페이징 //
+		int listCnt = 5;
+		crtPage = (crtPage > 0) ? crtPage : (crtPage = 1);
 
+		int startnum = (crtPage - 1) * listCnt + 1;
+		int endnum = startnum + listCnt - 1;
+		List<PostVo> postList = postDao.rlist(cateNo, startnum, endnum);
+
+		int totalCnt = postDao.selectTotal(cateNo);
+		int pgBtnCnt = 5;
+
+		int epgBtnNo = (int) (Math.ceil(crtPage / (double) pgBtnCnt)) * pgBtnCnt;
+		int spgBtnNo = epgBtnNo - pgBtnCnt + 1;
+
+		boolean next = false;
+		if (epgBtnNo * listCnt < totalCnt) {
+			next = true;
+		} else {
+			epgBtnNo = (int) (Math.ceil(totalCnt / (double) listCnt));
+		}
+
+		boolean prev = false;
+		if (spgBtnNo != 1) {
+			prev = true;
+		}
+
+		map.put("postList", postList);
+		map.put("prev", prev); map.put("next", next);
+		map.put("spgBtnNo", spgBtnNo); map.put("epgBtnNo", epgBtnNo);		
+		// 포스트 페이징 //	
+		System.out.println(map);
 		return map;
 	}
 

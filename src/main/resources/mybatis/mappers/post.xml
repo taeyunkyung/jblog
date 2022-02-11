@@ -9,6 +9,39 @@
 		]]>
 	</insert>
 	
+	<select id="rlist" parameterType="map" resultType="PostVo">
+		<![CDATA[
+			select  rt.rn,
+        			rt.postNo,
+        			rt.cateNo,
+        			rt.postTitle,
+        			to_char(rt.regDate, 'YYYY/MM/DD') regDate
+			from (select  rownum rn,
+        				  ot.postNo,
+        				  ot.cateNo,
+        				  ot.postTitle,
+        				  ot.regDate
+				  from (select  postNo,
+        						cateNo,
+        						postTitle,
+        						regDate
+						from post
+						where cateNo = #{cateNo}
+						order by regDate desc) ot
+			) rt
+			where rt.rn >= #{startnum}
+			and rt.rn <= #{endnum}
+		]]>
+	</select>
+	
+	<select id="totalCnt" parameterType="int" resultType="int">
+		<![CDATA[
+			select count(*)
+			from post
+			where cateNo = #{cateNo}
+		]]>
+	</select>
+	
 	<select id="selectList" parameterType="int" resultType="PostVo">
 		<![CDATA[
 			select  postNo,

@@ -1,6 +1,8 @@
 package com.javaex.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,24 @@ public class PostDao {
 		System.out.println("PostDao.insert");
 		return sqlSession.insert("post.insert", postVo);
 	}
+	
+	// 페이징 //
+	public List<PostVo> rlist(int cateNo, int startnum, int endnum) {
+		System.out.println("PostDao.rlist");
+		
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("cateNo", cateNo);
+		map.put("startnum", startnum);
+		map.put("endnum", endnum);
+		System.out.println(map);
+		return sqlSession.selectList("post.rlist", map);
+	}
+	
+	public int selectTotal(int cateNo) {
+		System.out.println("PostDao.selectTotal");
+		return sqlSession.selectOne("post.totalCnt", cateNo);
+	}
+	// 페이징 //
 	
 	public List<PostVo> list(int cateNo) {
 		System.out.println("PostDao.list");
