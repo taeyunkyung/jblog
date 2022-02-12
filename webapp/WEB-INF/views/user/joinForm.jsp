@@ -26,7 +26,7 @@
 		      		<tr>
 		      			<td><label for="txtId">아이디</label></td>
 		      			<td><input id="txtId" type="text" name="id"></td>
-		      			<td><button id="btnIdCheck" type="button">아이디체크</button></td>
+		      			<td><button id="btnIdCheck" type="button" value="false">아이디체크</button></td>
 		      		</tr>
 		      		<tr>
 		      			<td></td>
@@ -51,7 +51,7 @@
 		      		</tr>   		
 		      	</table>
 	      		<div id="btnArea">
-					<button id="btnJoin" class="btn" type="submit" >회원가입</button>
+					<button id="btnJoin" class="btn" type="submit">회원가입</button>
 				</div>	      		
 			</form>
 			
@@ -66,10 +66,44 @@
 <script type="text/javascript">
 	$(document).ready(function () {
 		$("#tdMsg").hide();
+	});	
+
+	$("#btnJoin").on("click", function() {	
+		
+		if(!$("#txtId").val()) {
+			$("#btnJoin").attr("disabled", true);
+			alert("아이디를 입력해주세요.");	
+			$("#btnJoin").attr("disabled", false);
+			return false;
+			
+		} else if ($("#btnIdCheck").prop("value") == 'false') {
+			$("#btnJoin").attr("disabled", true);
+			alert("아이디 중복체크를 해주세요.");
+			$("#btnJoin").attr("disabled", false);
+			return false;
+			
+		} else if (!$("#txtPassword").val()) {
+			$("#btnJoin").attr("disabled", true);
+			alert("비밀번호를 입력해주세요.");	
+			$("#btnJoin").attr("disabled", false);
+			return false;
+			
+		} else if (!$("#txtUserName").val()) {
+			$("#btnJoin").attr("disabled", true);
+			alert("이름을 입력해주세요.");	
+			$("#btnJoin").attr("disabled", false);
+			return false;	
+			
+		} else if ($("#chkAgree").is(":checked") == false) {
+			$("#btnJoin").attr("disabled", true);
+			alert("약관에 동의해주세요.");
+			$("#btnJoin").attr("disabled", false);
+			return false;			
+		}		
 	});
 
 	$("#btnIdCheck").on("click", function() {
-		console.log("아이디체크");
+		$("#btnIdCheck").attr("value", true);
 		var keyword = $("#txtId").val();
 		
 		$.ajax({			
@@ -92,14 +126,6 @@
 		});
 	});
 	
-	$("#btnJoin").on("click", function() {
-		// 아이디 중복체크 여부
-		// 아이디, 패스워드, 이름 미입력 여부
-		// 약관동의 체크 여부		
-		var chkAgree = $("#chkAgree").val();
-		console.log(chkAgree);
-	});
-
 </script>
 
 </html>
