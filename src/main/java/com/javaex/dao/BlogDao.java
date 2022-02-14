@@ -1,5 +1,7 @@
 package com.javaex.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -26,4 +28,16 @@ public class BlogDao {
 		System.out.println("BlogDao.update");
 		return sqlSession.update("blog.update", blogVo);
 	}
+	
+	// 검색 //
+	public List<BlogVo> searchTitle(String keyword) {
+		System.out.println("BlogDao.searchTitle");
+		return sqlSession.selectList("blog.searchTitle", keyword);
+	}
+	
+	public List<BlogVo> searchName(String keyword) {
+		System.out.println("BlogDao.searchName");
+		return sqlSession.selectList("blog.searchName", keyword);
+	}
+	// 검색 //
 }

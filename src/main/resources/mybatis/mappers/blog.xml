@@ -29,4 +29,28 @@
 			where id = #{id}
 		]]>
 	</update>
+	
+	<select id="searchTitle" parameterType="String" resultType="BlogVo">
+		<![CDATA[
+			select  b.id,
+        			blogTitle,
+        			u.userName,
+        			to_char(joinDate, 'YYYY-MM-DD') joinDate
+			from blog b, users u
+			where b.id = u.id
+			and b.blogTitle like '%'||#{keyword}||'%'
+		]]>	
+	</select>
+	
+	<select id="searchName" parameterType="String" resultType="BlogVo">
+		<![CDATA[
+			select  b.id,
+        			blogTitle,
+        			u.userName,
+        			to_char(joinDate, 'YYYY-MM-DD') joinDate
+			from blog b, users u
+			where b.id = u.id
+			and u.userName like '%'||#{keyword}||'%'
+		]]>	
+	</select>
 </mapper>

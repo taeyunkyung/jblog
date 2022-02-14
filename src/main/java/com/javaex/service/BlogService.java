@@ -32,7 +32,7 @@ public class BlogService {
 
 	public int startBlog(String id) {
 		System.out.println("BlogService.startBlog");
-		BlogVo blogVo = new BlogVo(id, "", "", "");
+		BlogVo blogVo = new BlogVo(id, "", "", "", "");
 
 		return blogDao.insert(blogVo);
 	}
@@ -110,4 +110,16 @@ public class BlogService {
 
 		return blogDao.update(blogVo);
 	}
+	
+	// 검색 //
+	public List<BlogVo> searchTitle(String keyword) {
+		System.out.println("BlogService.searchTitle");
+		return blogDao.searchTitle(keyword);
+	}
+	
+	public List<BlogVo> searchName(String keyword) {
+		System.out.println("BlogService.searchName");
+		return blogDao.searchName(keyword);
+	}
+	// 검색 //
 }
